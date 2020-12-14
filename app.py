@@ -17,3 +17,13 @@ def before_request():
   """Connect to the database before each request."""
   g.db = models.DATABASE
   g.db.connect()
+
+
+@app.after_request
+def after_request(response):
+  """Close the db connection after each requewst."""
+  g.db.close()
+  return response
+
+
+CORS(states, origins='*', supports_credentials=True)
