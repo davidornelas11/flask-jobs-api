@@ -2,7 +2,6 @@ from flask import Flask, jsonify, g
 from flask_cors import CORS
 
 import models
-from resources.dogs import dog
 
 DEBUG = True
 PORT = 8000
@@ -27,3 +26,9 @@ def after_request(response):
 
 
 CORS(states, origins='*', supports_credentials=True)
+
+app.register_blueprint(state, url_prefix='/api/states')
+
+if __name__ == '__main__':
+  models.initialize()
+  app.run(debug=DEBUG, port=PORT)
