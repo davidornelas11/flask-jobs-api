@@ -5,7 +5,6 @@ import datetime
 import os
 
 DEBUG = True
-PORT = 8001
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 ENV = 'prod'
@@ -99,4 +98,4 @@ CORS(origins='*', supports_credentials=True)
 
 
 if __name__ == '__main__':
-  app.run(debug=DEBUG, port=PORT)
+  app.run(debug=DEBUG)
