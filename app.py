@@ -98,4 +98,4 @@ CORS(origins='*', supports_credentials=True)
 
 
 if __name__ == '__main__':
-  app.run(debug=DEBUG)
+  app.run(port=8003)
