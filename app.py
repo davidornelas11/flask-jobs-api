@@ -13,12 +13,11 @@ ENV = 'prod'
 app = Flask(__name__)
 if ENV == 'dev':
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' +  os.path.join(basedir, 'everystate.sqlite')
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 else:
     DEBUG = False
     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://arylqgtqaiklsp:1a5f7f4f83f7d7cb6a748b8fe5d99fa990bf00df944bde85afdf7096022294e3@ec2-54-211-238-131.compute-1.amazonaws.com:5432/dd6k37pt995nvc'
 db = SQLAlchemy(app)
-
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 class State(db.Model):
     __tablename__ = 'State'
@@ -63,7 +62,7 @@ def post_new_state():
         # return jsonify(data={}, status={"code": 200, "message": "Error getting the resources"})
 
 
-@app.route('/', methods=['GET'])
+@app.route('/states', methods=['GET'])
 def find_data():
     answer = request.get_json()
     # print(answer['state'], answer['programming_language'])
