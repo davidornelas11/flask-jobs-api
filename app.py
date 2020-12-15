@@ -67,7 +67,7 @@ def post_new_state():
 
 @app.route('/states', methods=['GET'])
 def find_data():
-    answer = request.get_json()
+    # answer = request.get_json()
     # print(answer['state'], answer['programming_language'])
     # langanswerrequest.form['programming_language']
     # print(answer)
@@ -82,7 +82,7 @@ def find_data():
             l[i.state][i.programming_language] = i.number_of_jobs
         # print(l[i.state])
         # l[i.state][i.programming_language] = i.number_of_jobs
-    print(l)
+    # print(l)
     # print(l)
     try:
         return jsonify(l)
