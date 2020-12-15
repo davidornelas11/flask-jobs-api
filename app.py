@@ -93,7 +93,7 @@ def find_data():
 #   return response
 
 
-CORS(origins='*', supports_credentials=True)
+# CORS(origins='*', supports_credentials=True)
 
 
 if __name__ == '__main__':
