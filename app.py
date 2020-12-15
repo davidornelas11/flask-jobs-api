@@ -8,12 +8,17 @@ DEBUG = True
 PORT = 8001
 basedir = os.path.abspath(os.path.dirname(__file__))
 
+ENV = 'prod'
+
 # Initialize an instance of the Flask class.
 # This starts the website!
 app = Flask(__name__)
-
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' +  os.path.join(basedir, 'everystate.sqlite')
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+if ENV == 'dev':
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' +  os.path.join(basedir, 'everystate.sqlite')
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+else:
+    DEBUG = False
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://arylqgtqaiklsp:1a5f7f4f83f7d7cb6a748b8fe5d99fa990bf00df944bde85afdf7096022294e3@ec2-54-211-238-131.compute-1.amazonaws.com:5432/dd6k37pt995nvc'
 db = SQLAlchemy(app)
 
 
@@ -38,10 +43,18 @@ class State(db.Model):
 
 @app.route('/', methods=["POST"])
 def post_new_state():
-    state = request.form['state']
-    programming_language = request.form['programming_language']
-    number_of_jobs = int(request.form['number_of_jobs'])
-    new_state = State(state, programming_language, number_of_jobs)
+    try:
+        state = request.form['state']
+        programming_language = request.form['programming_language']
+        number_of_jobs = int(request.form['number_of_jobs'])
+        new_state = State(state, programming_language, number_of_jobs)
+        print("it was a form request")
+    except:
+        payload = request.get_json()
+        state = payload['state']
+        programming_language = payload['programming_language']
+        number_of_jobs = payload['number_of_jobs']
+        new_state = State(state, programming_language, number_of_jobs)
     try:
         db.session.add(new_state)
         db.session.commit()
@@ -71,9 +84,10 @@ def find_data():
         # l[i.state][i.programming_language] = i.number_of_jobs
     print(l)
     # print(l)
-    return jsonify(l)
-    return jsonify({results[0].state:results[0].programming_language})
-
+    try:
+        return jsonify(l)
+    except: 
+        return jsonify({"message": "error"})
 # @app.after_request
 # def after_request(response):
 #   """Close the db connection after each requewst."""
