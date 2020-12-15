@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
+from flask_cors import CORS
 import datetime
 import os
 
@@ -11,6 +12,8 @@ ENV = 'prod'
 # Initialize an instance of the Flask class.
 # This starts the website!
 app = Flask(__name__)
+CORS(app)
+
 if ENV == 'dev':
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' +  os.path.join(basedir, 'everystate.sqlite')
 else:
