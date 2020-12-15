@@ -2,3 +2,4 @@ venv
 .vscode
 everystate.sqlite
 everystate.sqlite-journal
+data.sql

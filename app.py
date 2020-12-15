@@ -20,7 +20,7 @@ db = SQLAlchemy(app)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 class State(db.Model):
-    __tablename__ = 'State'
+    __tablename__ = 'states'
     _id = db.Column('id', db.Integer, primary_key=True)
     state = db.Column('state', db.String(25))
     programming_language = db.Column('programming_language', db.String(20))
